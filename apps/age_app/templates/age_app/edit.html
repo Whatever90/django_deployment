@@ -1,0 +1,49 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			#main{
+				     align-self: center;
+    			text-align: center;
+	    		margin: 10 auto;
+	    		border: solid 1px;
+			}
+			#mid{
+				border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+			}
+			.box{
+				display: inline-flex;
+			}
+			.one{
+				margin-left: 20%;
+			}
+			.two{
+			    margin-left: 50%;
+    			position: absolute;
+    		}
+
+		</style>
+		</head>
+	<body>
+	<div id="main">
+	<h1>Edit user {{user.first_name}} {{user.last_name}}</h1>
+	
+	<form action="{% url 'edited' user_id=user.id %}" method="post">
+		{% csrf_token %}
+		<h3>First name <input type="text" name="first_name"></h3>
+		<h3>Last name <input type="text" name="last_name"></h3>
+		<h3>Email <input type="text" name="email"></h3>
+	<input type="submit" value="Update this comrade">
+	</form>
+	<a href="">Delete</a>
+	<a href="/users">Go back</a>
+	</div>
+	</body>
+
+
+
+</html>

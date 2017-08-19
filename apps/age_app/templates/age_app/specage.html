@@ -1,0 +1,62 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			#main{
+				 align-self: center;
+    			text-align: center;
+	    		margin: 10 auto;
+	    		border: solid 1px;
+			}
+			#mid{
+				border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+			}
+			.box{
+				display: inline-flex;
+			}
+			.one{
+				margin-left: 20%;
+			}
+			.two{
+			    margin-left: 50%;
+    			position: absolute;
+    		}
+
+		</style>
+		</head>
+	<body>
+	<div id="main">
+	<h2>Age range: {{age.age}}</h2>
+	<h2>Number of users: {{age.length}}</h2>
+	<h3>Users:</h3>
+	{% for x in age.aged_to.all %}
+	<p>Name: {{x.name}}. Age: {{x.age}} years</p>
+	{%endfor%}
+
+	{% if age.id == request.session.user.group %}
+	<h2>
+		<form action="{% url 'message' %}" method="post">
+		{% csrf_token %}
+		<input type="hidden" type="text" name="group" value="{{age.id}}">
+		<input type="hidden" type="text" name="user" value="{{request.session.user.id}}">
+		<h3>Message: <input class='inbox' type="text" name="message"></h3>
+		<input type="submit" value="Send">
+		</form>
+	</h2>
+	{%endif%}
+	
+	<h2>Comments:</h2>
+	{% for comment in age.postaged_to.all %} 
+	<p>"{{comment.content}}" <span style="color: green">by {{comment.poster.name}}</span></p>
+	{%endfor%}
+	<a href="{% url 'dashboard' %}">Back</a>
+	<a href="{% url 'logout'%}">Log out</a>
+	</body>
+</div>
+
+
+</html>

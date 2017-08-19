@@ -1,0 +1,82 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+		
+		.course{
+			    display: inline-flex;
+    		margin: 10 10;
+    		border: solid silver 2px;
+    		background-color: azure;
+    		width: 90%;
+		}
+		#courses{
+			display: inline-grid;
+			width: 55%;
+			border: solid 1px silver;
+			background: azure;
+			padding: 10 10;
+        	width: 350px;
+        	height: 450px;
+        	margin-bottom: 10px;
+        	margin-top: 10px;
+		}
+		#create{
+			margin-top: 10px;
+			border: solid 1px silver;
+    		background: azure;
+    		padding: 10 10;
+        	width: 350px;
+            height: 510px;
+            box-shadow: 10px 10px 12px #888888;
+		}
+		.inbox{
+			    float: right;
+		}
+		body{
+			display: flex;
+			font-family: sans-serif;
+    			    font-size: 10pt;
+		}
+		a{
+			margin-right: 5px;
+			margin-left: 5px;
+		}
+		p{
+			margin-right: 5px;
+			margin-left: 5px;
+			color: red
+		}
+		</style>
+	</head>
+	<body>
+	
+		<div id="create">
+		<h1>   Registration</h1>
+		<form action="{% url 'new' %}" method="POST">
+		{% csrf_token %}
+		<h3>First Name: <input class='inbox' type="text" name="first_name"></h3>
+		<h3>Last Name: <input class='inbox' type="text" name="last_name"></h3>
+		<h3>Email: <input class='inbox' type="text" name="email"></h3>
+		<h3>Describe yourself: <input class='inbox' type="text" name="desc"></h3>
+		<h3>Password: <input class='inbox' type="text" name="password"></h3>
+		<h3>Confirm pw: <input class='inbox' type="text" name="confirm"></h3>
+		
+		<input type="submit" value="Register">
+		</form><a href="/index">Go back</a>
+		{% if messages %}
+			{% for message in messages %}
+				{% if message.tags == 'error' %}
+					<p>{{message}}</p>
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+		</div>
+		
+		
+		
+	</body>
+
+
+</html>

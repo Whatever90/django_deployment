@@ -1,0 +1,71 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			#main{
+				     margin: 10 10;
+	    		font-family: sans-serif;
+	    		display: flex;
+			}
+			.book{
+				border: solid 1px silver;
+				background-color: azure;
+			}
+			#last3{
+				border: solid 1px silver;
+				background-color: azure;
+				width: 300px;
+				
+			}
+			#last{
+				margin-right: 327px;
+			}
+			#book{
+				width: 300px;
+				float: right;
+
+			}
+			.rev{
+				border: solid 1px silver;
+				background-color: azure;
+			}
+
+		</style>
+		</head>
+	<body>
+	<div>
+		<h1>{{book.title}}</h1>
+		<h2> Author: {{book.author}}</h2> 
+		<div id='reviews'>
+			<h3>Reviews</h3>
+			{%for rev in book.feedback.all%}
+					<div class="rev">
+
+					<p><span style="color:green; ">Reviewed by <a href="{% url 'user' user_id=rev.reviwer.id%}">{{rev.reviwer.alias}}</a>: {{rev.content}}</span></p>
+					<p><span style="color:red; ">Rated {{rev.rating}}/5 {{rev.created_at}}</span></p>
+					{%	if rev.reviwer.id == request.session.user.id %}
+						<p><a href="{% url 'delete' rev_id=rev.id%}"> Delete this review</a></p>
+						{% endif %}
+					</div>
+					
+					{%endfor%}
+		</div>
+		<div>
+			<form action="{% url 'adding' %}" method="post">
+		{% csrf_token %}
+		
+		<input type="hidden" type="text" name="title" value="{{book.title}}">
+		<input type="hidden"' type="text" name="author" value="{{book.author}}">
+		<h3>Review: <input class='inbox' type="text" name="content"></h3>
+		<h3>Rating: <input class='inbox' type="text" name="rating"></h3>
+		<input type="submit" value="Submit review">
+		</form>
+		</div>
+	</div>
+	<p><a href="{% url 'books' %}">Back</a></p>
+	</body>
+
+
+
+</html>

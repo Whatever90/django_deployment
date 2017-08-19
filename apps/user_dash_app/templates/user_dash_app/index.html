@@ -1,0 +1,79 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+		
+		.course{
+			    display: inline-flex;
+    		margin: 10 10;
+    		border: solid silver 2px;
+    		background-color: azure;
+    		width: 90%;
+		}
+		#courses{
+			display: inline-grid;
+			width: 55%;
+			border: solid 1px silver;
+			background: azure;
+			padding: 10 10;
+        	width: 350px;
+        	height: 450px;
+        	margin-bottom: 10px;
+        	margin-top: 10px;
+		}
+		#create{
+			margin-top: 10px;
+			border: solid 1px silver;
+    		background: azure;
+    		padding: 10 10;
+        	width: 350px;
+            height: 450px;
+		}
+		.inbox{
+			    float: right;
+		}
+		#logbox{
+			 width: 280px;
+			 padding: 5 5;
+			 border: solid 1px silver;
+			background: azure;
+			 box-shadow: 10px 10px 12px #888888;
+			 height: 250px;
+		}
+		body{
+			margin: 20 20;
+			font-family: sans-serif;
+    			    font-size: 10pt;
+		}
+		a{
+			margin-right: 5px;
+			margin-left: 5px;
+		}
+		p{
+			margin-right: 5px;
+			margin-left: 5px;
+			color: red
+		}
+		</style>
+	</head>
+	<body>
+		<h1>Log in, commander</h1>
+		<div id="logbox">
+			<form action="{% url 'login' %}" method="post">
+				{% csrf_token %}
+				<h3>Email: <input class='inbox' type="text" name="login_email"></h3>
+				<h3>Password: <input class='inbox' type="text" name="login_password"></h3>
+			<input type="submit" value="Log in"><p><a href="{% url 'registration' %}">Don't have an account? Not a problem, my friend! Let's create one!</a></p>
+		</form>
+		{% if request.session.err %}
+			<p><span style="color: red;">{{request.session.err}}</span></p>
+			{% endif %}
+		</div>
+		<div id="ask">
+		
+		</div>
+	</body>
+
+
+</html>

@@ -1,0 +1,46 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			#main{
+				     align-self: center;
+    			text-align: center;
+	    		margin: 10 auto;
+	    		border: solid 1px;
+			}
+			#mid{
+				border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+			}
+			.box{
+				display: inline-flex;
+			}
+			.one{
+				margin-left: 20%;
+			}
+			.two{
+			    margin-left: 50%;
+    			position: absolute;
+    		}
+
+		</style>
+		</head>
+	<body>
+	<div id="main">
+
+	<h1>Welcome, commrade!</h1>
+	<h2>Don't be scared...</h2>
+	
+	<form action="{% url 'index' %}" method="post">
+	{% csrf_token %}
+	<input type="submit" value="Start">
+	</form>
+	</div>
+	</body>
+
+
+
+</html>

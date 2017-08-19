@@ -1,0 +1,46 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			#main{
+				     align-self: center;
+    			text-align: center;
+	    		margin: 10 auto;
+	    		border: solid 1px;
+			}
+			#mid{
+				border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+			}
+			.box{
+				display: inline-flex;
+			}
+			.one{
+				margin-left: 20%;
+			}
+			.two{
+			    margin-left: 50%;
+    			position: absolute;
+    		}
+
+		</style>
+		</head>
+	<body>
+	<div id="main">
+	<h1>User Alias: {{user.alias}}</h1>
+	<h3>Name: {{user.name}}</h3>
+	<h3>Email: {{user.email}}</h3>
+	<h3>Total Reviews: {{num}}</h3>
+	{% for rev in user.feedbacker.all %}
+	<p><a href="{% url 'book' book_id=rev.reviewed.id%}">{{rev.reviewed.title}}</a>: {{rev.content}}</p>
+	{% endfor %}
+	</div>
+	<p><a href="{% url 'books' %}">Back</a></p>
+	</body>
+
+
+
+</html>

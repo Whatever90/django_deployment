@@ -1,0 +1,54 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			#main{
+				 align-self: center;
+    			text-align: center;
+	    		margin: 10 auto;
+	    		border: solid 1px;
+			}
+			#mid{
+				border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+			}
+			.box{
+				display: inline-flex;
+			}
+			.one{
+				margin-left: 20%;
+			}
+			.two{
+			    margin-left: 50%;
+    			position: absolute;
+    		}
+    		body{
+    			font-family: sans-serif;
+    		}
+    		a{
+    			margin: 10 10;
+    			 background-color: azure;
+    			
+    		}
+		</style>
+		</head>
+	<body>
+	<div id="main">
+	<h1>Success! Welcome, {{request.session.user.name}}</h1>
+	<h3>You have {{request.session.user.gold}} gold so far</h3>
+	<p><a href="{% url 'logout' %}">Logout</a></p>
+	<p><a href="{% url 'game' %}">Start Game</a></p>
+	<p><a href="{% url 'players' %}">All players</a></p>
+	<p>Top 3 Players</p>
+	{% for player in players %}
+		<p><a href="{% url 'users' user_id=player.id%}">{{player.name}}</a> has {{player.gold}}</p>
+		{%endfor%}
+
+	</body>
+</div>
+
+
+</html>

@@ -1,0 +1,75 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+		
+		.course{
+			    display: inline-flex;
+    		margin: 10 10;
+    		border: solid silver 2px;
+    		background-color: azure;
+    		width: 90%;
+		}
+		#courses{
+			display: inline-grid;
+			width: 55%;
+			border: solid 1px silver;
+			background: azure;
+			padding: 10 10;
+        	width: 350px;
+        	height: 450px;
+        	margin-bottom: 10px;
+        	margin-top: 10px;
+		}
+		#create{
+			margin-top: 10px;
+			border: solid 1px silver;
+    		background: azure;
+    		padding: 10 10;
+        	width: 350px;
+            height: 450px;
+		}
+		.inbox{
+			    float: right;
+		}
+		body{
+			display: flex;
+		}
+		a{
+			margin-right: 5px;
+			margin-left: 5px;
+		}
+		p{
+			margin-right: 5px;
+			margin-left: 5px;
+			color: red
+		}
+		</style>
+	</head>
+	<body>
+	
+		<div id="create">
+		<h1>   Regitration</h1>
+		<form action="{% url 'registration' %}" method="post">
+		{% csrf_token %}
+		<h3>Name: <input class='inbox' type="text" name="name"></h3>
+		<h3>Age: <input class='inbox' type="text" name="age"></h3>
+		
+		<input type="submit" value="Enter">
+		</form>
+		{% if messages %}
+			{% for message in messages %}
+				{% if message.tags == 'error' %}
+					<p>{{message}}</p>
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+		</div>
+		
+		
+		
+	</body>
+
+
+</html>

@@ -1,0 +1,46 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			#main{
+				     align-self: center;
+    			text-align: center;
+	    		margin: 10 auto;
+	    		border: solid 1px;
+			}
+			#mid{
+				border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+			}
+			.box{
+				display: inline-flex;
+			}
+			.one{
+				margin-left: 20%;
+			}
+			.two{
+			    margin-left: 50%;
+    			position: absolute;
+    		}
+
+		</style>
+		</head>
+	<body>
+	<div id="main">
+	<h1>User {{user.id}}</h1>
+	{% csrf_token %}
+
+	<p>Full name: {{user.first_name}} {{user.last_name}}</p>
+	<p>Email: {{user.email}}</p>
+	<p>Created at: {{user.created_at}}</p>
+	<a href="{%url 'edit' user_id=user.id%}">Edit</a>
+	<a href="{%url 'destroy' user_id=user.id%}">Send to GULAG</a>
+	<a href="/users">Go back</a>
+	</body>
+</div>
+
+
+</html>

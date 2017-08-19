@@ -1,0 +1,48 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			#main{
+				 align-self: center;
+    			text-align: center;
+	    		margin: 10 auto;
+	    		border: solid 1px;
+			}
+			#mid{
+				border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+			}
+			.box{
+				display: inline-flex;
+			}
+			.one{
+				margin-left: 20%;
+			}
+			.two{
+			    margin-left: 50%;
+    			position: absolute;
+    		}
+
+		</style>
+		</head>
+	<body>
+	<div id="main">
+	<a href="{% url 'specage' num=1 %}">0-10</a>
+	<a href="{% url 'specage' num=2 %}">11-18</a>
+	<a href="{% url 'specage' num=3 %}">19-24</a>
+	<a href="{% url 'specage' num=4 %}">25-35</a>
+	<a href="{% url 'specage' num=5 %}">36-50</a>
+	<a href="{% url 'specage' num=6 %}">51+</a>
+	<h1>Welcome, {{request.session.user.name}}</h1>
+	{% for age in ages %}
+	<p>Age range:{{age.age}} | Count: {{age.length}}</p>
+	{%endfor%}
+	<a href="{% url 'logout'%}">Log out</a>
+	</body>
+</div>
+
+
+</html>

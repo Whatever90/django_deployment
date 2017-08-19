@@ -1,0 +1,63 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+		
+		.course{
+			    display: inline-flex;
+    		margin: 10 10;
+    		border: solid silver 2px;
+    		background-color: azure;
+    		width: 90%;
+		}
+		#courses{
+			display: inline-grid;
+			width: 55%;
+		}
+		#create{
+			border: solid 1px silver;
+    background: azure;
+    padding: 10 10;
+        width: 25%;
+            height: 25%;
+		}
+		.inbox{
+			    float: right;
+		}
+		a{
+			margin-right: 5px;
+			margin-left: 5px;
+		}
+		p{
+			margin-right: 5px;
+			margin-left: 5px;
+		}
+		</style>
+	</head>
+	<body>
+	
+		<div id="create">
+		<h1>   Add a new course</h1>
+		<form action="{% url 'new' %}" method="post">
+		{% csrf_token %}
+		<h3>Name: <input class='inbox' type="text" name="name"></h3>
+		<h3>Description: <input class='inbox' type="text" name="desc"></h3>
+	<input type="submit" value="Set a course comrade">
+		<p>{{request.session.error}}</p>
+		</div>
+		
+		<div id="courses">
+		<h1>Courses, commander</h1>
+			{% for x in course %}
+			<div class='course'><p>{{x.name}}</p> <p>{{x.desc}}</p><p>{{x.created_at}}</p>  <a href="{%url 'destroy' user_id=x.id%}"> DESTROY </a>
+		
+			</div>
+			
+			{% endfor %}
+		</div>
+		
+	</body>
+
+
+</html>

@@ -1,0 +1,70 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			#main{
+				     align-self: center;
+    			
+	    		margin: 10 auto;
+	    		
+			}
+			#mid{
+				border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+			}
+			.box{
+				display: inline-flex;
+			}
+			.one{
+				margin-left: 20%;
+			}
+			.two{
+			    margin-left: 50%;
+    			position: absolute;
+    		}
+    		#user{
+    			display: inline-flex;
+    			border: solid 1px silver;
+    			margin-right: 50%;
+    			background-color: azure;
+    			width: 750px;
+    			    align-items: baseline;
+    			    box-shadow: 10px 10px 12px #888888;
+    		}
+    		p{
+    			margin-right: 10px;
+    			    font-family: sans-serif;
+    			    font-size: 10pt;
+    		}
+    		a{
+    			margin-right: 10px;
+    			    font-family: monospace;
+
+    		}
+
+		</style>
+		</head>
+	<body>
+	<div id="main">
+	<h1>Hello, {{request.session.context.name}}</h1>
+	<h2>Dashboard</h2>
+	{% csrf_token %}
+	{%for user in Users%}
+	<div id='user'>
+	<p><a href="{% url 'user' user=user.id %}">{{user.first_name}} {{user.last_name}}</a></p>
+	<p> Email: {{user.email}}</p>
+	<p> Created at: {{user.created_at}}</p>
+	
+	
+	</div>
+	{% endfor %}
+	</div>
+	<a href="/index"><span style="margin: 50 50; box-shadow: 13px 13px 12px #888888;">Go back</span></a>
+	</body>
+</div>
+
+
+</html>

@@ -1,0 +1,54 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			#main{
+				     align-self: center;
+    			text-align: center;
+	    		margin: 10 auto;
+	    		border: solid 1px;
+			}
+			#mid{
+				border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+			}
+			.box{
+				display: inline-flex;
+			}
+			.one{
+				margin-left: 20%;
+			}
+			.two{
+			    margin-left: 50%;
+    			position: absolute;
+    		}
+
+		</style>
+		</head>
+	<body>
+	<div id="main">
+	<h1>Say something, {{request.session.user.alias}}</h1>
+	<p><a href="{% url 'logout' %}">Log out</a></p>
+	<p><a href="{% url 'books' %}">Back</a></p>
+	</div>
+	{% csrf_token %}
+
+	<div id="create">
+		<h1>   Add a New Book Title and a Review</h1>
+		<form action="{% url 'adding' %}" method="post">
+		{% csrf_token %}
+		<h3>Book Title: <input class='inbox' type="text" name="title"></h3>
+		<h3>Author: <input class='inbox' type="text" name="author"></h3>
+		<h3>Review: <input class='inbox' type="text" name="content"></h3>
+		<h3>Rating: <input class='inbox' type="text" name="rating"></h3>
+		<input type="submit" value="Add book and review">
+		</form>
+	</div>
+	</body>
+
+
+
+</html>

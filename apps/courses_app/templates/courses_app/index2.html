@@ -1,0 +1,48 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			#main{
+				 align-self: center;
+    			text-align: center;
+	    		margin: 10 auto;
+	    		border: solid 1px;
+			}
+			#mid{
+				border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+			}
+			.box{
+				display: inline-flex;
+			}
+			.one{
+				margin-left: 20%;
+			}
+			.two{
+			    margin-left: 50%;
+    			position: absolute;
+    		}
+
+		</style>
+		</head>
+	<body>
+	<div id="main">
+	<h1>Delete this course?</h1>
+	{% csrf_token %}
+	<p>{{course.name}}</p>
+	<p>{{course.desc}}</p>
+	<form action="{%url 'destroy_confirm' user_id=course.id %}" method="POST">
+	{% csrf_token %}
+	<input type="submit" value="Delete"></form>
+	<form action="/" method="POST">
+	{% csrf_token %}
+	<input type="submit" value="Cancel"></form>
+	
+	</body>
+</div>
+
+
+</html>

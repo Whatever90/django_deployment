@@ -1,0 +1,85 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+        body{
+        	font-family: sans-serif;
+        margin: 10px 19px;
+       }
+      #head{
+        width: 100%;
+        display: inline-flex;
+      }
+      .box{
+        border: 3px solid green;
+        text-align: center;
+        margin: 10px 4px;
+        height: 170px;
+        width: 100%;
+      }
+      #log{
+        width: 100%;
+      }
+      #actbox{
+        height: 100%;
+        width: 100%;
+        border: 3px solid green;
+        margin-top: -15px;
+        font-size: 12pt;
+        overflow-y: scroll;
+        text-align: center;
+      }
+        </style>
+</head>
+
+<body>
+    {% csrf_token %}
+    <h1>{{request.session.user.name}}</h1>
+    <h3>Your Gold: {{request.session.gold}}</h3>
+   
+    
+    <div class='box' style="outline: thin solid black; height: 200px; width: 200px; display:inline-block">
+        <form action="/process" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="building" value="cave">
+            <input type="submit" value="Go to Cave?">
+        </form>
+    </div>
+    <div class='box' style="outline: thin solid black; height: 200px; width: 200px; display:inline-block">
+        <form action="/process" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="building" value="casino">
+            <input type="submit" value="Go to casino?">
+        </form>
+    </div>
+    <div class='box' style="outline: thin solid black; height: 200px; width: 200px; display:inline-block">
+        <form action="/process" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="building" value="farm">
+            <input type="submit" value="Get to Farm?">
+        </form>
+    </div>
+    <div class='box' style="outline: thin solid black; height: 200px; width: 200px; display:inline-block">
+        <form action="/process" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="building" value="forest">
+            <input type="submit" value="Get the job done">
+        </form>
+    </div>
+
+    <div style="outline: thin solid black; height: 300px; width: 800px;">
+        {% csrf_token %}
+        {% for log in logs %}
+        
+        <p>{{ log.content }}</p>
+        {% endfor %}
+        
+        
+    </div>
+	<p><a href="{% url 'endgame' %}">End the game</a></p>
+	</body>
+
+
+
+</html>
