@@ -76,11 +76,9 @@ def login(request):
 def dashboard(request):
 	print 'we r in dashboard'
 	context = {
-		'players' : Users.objects.all().order_by('-gold')[:3]
+		'players' : Users.objects.all().order_by('-gold')[:3],
+		'user': Users.objects.get(id=request.session['user']['id'])
 	}
-	print request.session['user']['id']
-	m = Users.objects.get(id=request.session['user']['id'])
-	print m.activities
 	return render(request, "test_belt_app/index2.html", context)
 
 
@@ -89,37 +87,23 @@ def logout(request):
 	return redirect('/')
 
 def game(request):
-	print request.session['user']['id']
-	#request.session['gold'] = request.session['user']['gold']
-	#print request.session['user']['log']
-	try:
-		request.session['gold']
-		print "Gold works!"
-	except:
-		request.session['user']['gold'] = 0
-	try:
-		request.session['log']
-		print "Log works!"
-	except:
-		request.session['log'] = []
+	
 	context = {
 		'logs': Logs.objects.filter(us=Users.objects.get(id=request.session['user']['id'])).order_by('-created_at')[:8],
 		'user': Users.objects.get(id=request.session['user']['id'])
 	}
-	j = Logs.objects.all()
-	print j
+	
 	return render(request,"test_belt_app/game.html", context)
 
 
 def process(request):
-	print "HELLO THERE! THIS IS PROCESS!"
-	print '1'
+	asd = Users.objects.get(id=request.session['user']['id'])
 	if request.POST['building'] == 'cave':
 		z = random.randrange(-50, 25)
 		if z>0:
 			print z
 			print "z greater than 0"
-			request.session['gold'] += z
+			asd.gold += z
 			new = Logs.objects.create(content="You've got "+str(z)+" gold in a cave...what ", us=Users.objects.get(id=request.session['user']['id']))
 			new.save()
 			#request.session['log'].append("You've got "+str(z)+" gold in a cave...what ")
@@ -127,7 +111,7 @@ def process(request):
 			z = z*(-1)
 			print z
 			print "z lower than 0"
-			request.session['gold'] -=z
+			asd.gold -=z
 			new = Logs.objects.create(content="Lol, Yeti sscrewed you up! You've lost "+str(z)+" gold ", us=Users.objects.get(id=request.session['user']['id']))
 			#request.session['log'].append("Lol, Yeti sscrewed you up! You've lost "+str(z)+" gold ")
 		print "cave"
@@ -139,13 +123,13 @@ def process(request):
 		z = random.randrange(-100, 50)
 		print z
 		if z>0:
-			request.session['gold'] += z
+			asd.gold += z
 			#request.session['log'].append("You've got "+str(z)+" gold in a farm...what a farmer!")
 			new = Logs.objects.create(content="You've got "+str(z)+" gold in a farm...what a farmer!", us=Users.objects.get(id=request.session['user']['id']))
 			new.save()
 		else:
 			z = z*(-1)
-			request.session['gold'] -=z
+			asd.gold -=z
 			new = Logs.objects.create(content="You've got unlucky! Pay for your stupid cows "+str(z)+" gold", us=Users.objects.get(id=request.session['user']['id']))
 			new.save()
 			#request.session['log'].append("You've got unlucky! Pay for your stupid cows "+str(z)+" gold")
@@ -155,13 +139,13 @@ def process(request):
 		z = random.randrange(-150, 75)
 		print z
 		if z>0:
-			request.session['gold'] += z
+			asd.gold += z
 			new = Logs.objects.create(content="You've won "+str(z)+" gold in a casino, good job!", us=Users.objects.get(id=request.session['user']['id']))
 			new.save()
 			#request.session['log'].append("You've won "+str(z)+" gold in a casino, good job!")
 		else:
 			z = z*(-1)
-			request.session['gold'] -=z
+			asd.gold -=z
 			new = Logs.objects.create(content="Looser! Now give me your "+str(z)+" gold!", us=Users.objects.get(id=request.session['user']['id']))
 			new.save()
 			
@@ -169,28 +153,22 @@ def process(request):
 		print "casino"
 
 	if request.POST['building'] == 'forest':
-		request.session['gold'] += 50
+		asd.gold += 50
 		new = Logs.objects.create(content="You just have burried a dead body in a forrest. Well done. Here is your 50 gold. Come back if you need more money, we still have bunch of deads to get burried", us=Users.objects.get(id=request.session['user']['id']))
 		new.save()
 		#request.session['log'].append("You just have burried a dead body in a forrest. Well done. Here is your 50 gold. Come back if you need more money, we still have bunch of deads to get burried")
 		#request.session['num'] = "NUM!!!"
 		#for i in range(0, len(request.session['log']))
-	print "you have", request.session['gold']
+	print "you have"
+	
+	# = request.session['user']['gold']
+	asd.save()
 	#print request.session['log']
 	return redirect('/game')
 	
 def endgame(request):
-	request.session['user']['gold'] = request.session['gold']
-	print "now you have", str(request.session['user']['gold'])
-	#request.session['user']['log'].append(request.session['log'])
-	del request.session['log']
-	g = Users.objects.get(id=request.session['user']['id'])
-	g.gold = request.session['user']['gold']
-	#g.activities = request.session['user']['log']
-	g.save()
-	print "=============="
-	print "XAXAAX YOUR MONEY", str(g.gold)
-	print "=============="
+	#request.session['user']['gold'] #= request.session['gold']
+	
 
 	return redirect('/dashboard')
 

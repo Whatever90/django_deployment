@@ -30,7 +30,7 @@
 	<p><a href="{% url 'dashboard' %}">Back</a></p>
 		<div id='log'>
 			<h4>Log</h4>
-			{% for log in user.poster.all%}
+			{% for log in user.poster.all %}
 				<p><span style="border-top: 1px solid silver; padding-top: 10px">{{log.content}} <span style="color: grey">{{log.created_at}}</span></span></p>
 				{%endfor%}
 		</div>
