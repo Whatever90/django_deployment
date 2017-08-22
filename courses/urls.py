@@ -19,7 +19,7 @@ from . import views
 
 print "i'm urls.py in project"
 urlpatterns = [
-    url(r'^', include('apps.hero_app.urls')),
+    url(r'^', include('apps.poke_app.urls')),
     #('apps.user_dash_app.urls')
     #('apps.loginreg_app.urls')
 ]

@@ -1,0 +1,46 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			body{
+				margin: 10 10;
+				font-family: sans-serif;
+			}
+			#main{
+	    		width: 50%;
+	    		border: solid 1px;
+	    		padding: 10 10;
+			}
+			#log{
+				border: solid 1px;
+				display: grid;
+				width: 70%;
+    			padding: 10 10;
+    		}
+			
+		</style>
+		</head>
+	<body>
+	<div id="main">
+	<p><a href="{% url 'dashboard' %}">Back</a></p>
+	<form action="{% url 'createpower' %}" method="post">
+		{% csrf_token %}
+		<h3>Name your power: <input class='inbox' type="text" name="powername"></h3>
+		<h3>Desciption: <input class='inbox' type="text" name="powerdesc"></h3>
+		<input type="submit" value="Create">
+		</form>
+	</div>
+		<div>
+		<p>List of existed powers:</p>
+		{% for power in powers %}
+		<p>{{power.name}} - {{power.desc}}</p>
+		{%endfor%}
+		</div>
+	
+	
+	</body>
+
+
+
+</html>

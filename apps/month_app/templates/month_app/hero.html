@@ -1,0 +1,49 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			body{
+				margin: 10 10;
+				font-family: sans-serif;
+			}
+			#main{
+	    		width: 50%;
+	    		border: solid 1px;
+	    		padding: 10 10;
+			}
+			#log{
+				border: solid 1px;
+				display: grid;
+				width: 70%;
+    			padding: 10 10;
+    		}
+			
+		</style>
+		</head>
+	<body>
+	
+	
+	
+	<p><a href="{% url 'dashboard' %}">Back</a></p>
+		<div id='log'>
+			<h2>Name: {{hero.name}}</h2>
+			<h3>Power: {{hero.power.name}}</h3>
+			<h3>Likes count: {{hero.like}}</h3>
+			<h3>Liked by: {%for x in hero.liked_by.all%}
+			{{x.name}}
+			{%endfor%}
+			</h3>
+			<h4>
+				{%if user in hero.liked_by.all%}
+					<p>HELLO!</p>
+				{%endif%}
+			</h4>
+		</div>
+	
+	
+	</body>
+
+
+
+</html>

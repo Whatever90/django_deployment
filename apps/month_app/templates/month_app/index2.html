@@ -1,0 +1,61 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			#main{
+				;
+	    		margin: 10 auto;
+	    		border: solid 1px;
+			}
+			#mid{
+				border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+			}
+			.box{
+				display: inline-flex;
+			}
+			.one{
+				margin-left: 20%;
+			}
+			.two{
+			    margin-left: 50%;
+    			position: absolute;
+    		}
+    		body{
+    			font-family: sans-serif;
+    		}
+    		a{
+    			margin: 10 10;
+    			 background-color: azure;
+    			
+    		}
+    		.month{
+    			border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+    		}
+		</style>
+		</head>
+	<body>
+	<div id="main">
+	<p><a href="{% url 'logout' %}">Logout</a></p>
+	<h1>Success! Welcome, {{request.session.user.name}}</h1>
+	{%for month in monthes%}
+	<div class='month'><h3>List of users born in {{month.name}} : </h3>
+	{%for user in month.month_at.all%}
+		<p>{{user.name}} {{user.last_name}} {{user.pokesum}}</p>
+		{%endfor%}
+
+
+	</div>
+		{%endfor%}
+</div>
+	</body>
+
+
+
+</html>

@@ -1,0 +1,75 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			#main{
+				;
+	    		
+			}
+			#mid{
+				border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+			}
+			.box{
+				display: inline-flex;
+			}
+			.one{
+				margin-left: 20%;
+			}
+			.two{
+			    margin-left: 50%;
+    			position: absolute;
+    		}
+    		body{
+    			font-family: sans-serif;
+    		}
+    		a{
+    			margin: 10 10;
+    			 background-color: azure;
+    			
+    		}
+    		.month{
+    			border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+    		}
+    		#check{
+    			margin: 10 10;
+	    		border: solid 1px silver;
+	    		background-color: azure;
+	    		width: 300px;
+    		}
+		</style>
+		</head>
+	<body>
+	<div id="main">
+	<p><a href="{% url 'logout' %}">Logout</a></p>
+	<h1>Success! Welcome, {{you.name}} aka {{you.alias}}</h1>
+	<h4>{{len}} people poked you!</h4>
+	<div id='check'><h4><span style="color: green">List who poked you:</span>
+	{%for x in beingpoked%}
+		<p><span style="color: red">{{x.poked_by.name}}</span> aka <span style="color: red">"{{x.poked_by.alias}}"</span> poked you {{x.pokesum}} times</p>
+	{%endfor%}
+
+	</h4></div>
+	<h2>Users:</h2>
+	{%for user in users%}
+	<div class='month'><h3>{{user.name}} aka "{{user.alias}}" has been poked {{user.pokesum}} times: <a href="{% url 'poke' id=user.id%}">Poke</a></h3>
+	{%for p in user.pokd.all%}
+		
+
+		{%endfor%}
+
+
+	</div>
+		{%endfor%}
+</div>
+	</body>
+
+
+
+</html>

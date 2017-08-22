@@ -31,7 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'apps.hero_app',
+    'apps.poke_app',
+    #'apps.month_app',
+    #'apps.hero_app',
     #'apps.courses_app',
     #'apps.loginreg_app',
     #'apps.user_dash_app',
