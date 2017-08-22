@@ -1,0 +1,65 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			#main{
+				 align-self: center;
+    			text-align: center;
+	    		margin: 10 auto;
+	    		border: solid 1px;
+			}
+			#mid{
+				border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+			}
+			.box{
+				display: inline-flex;
+			}
+			.one{
+				margin-left: 20%;
+			}
+			.two{
+			    margin-left: 50%;
+    			position: absolute;
+    		}
+    		body{
+    			font-family: sans-serif;
+    		}
+    		a{
+    			margin: 10 10;
+    			 background-color: azure;
+    			
+    		}
+		</style>
+		</head>
+	<body>
+	<div id="main">
+	<h1>Success! Welcome, {{request.session.user.name}}</h1>
+	<p><a href="{% url 'logout' %}">Logout</a></p>
+	<p><a href="{% url 'newhero' %}">Add a hero</a></p>
+	<p><a href="{% url 'newpower' %}">Add a power</a></p>
+	<p>All heroes:</p>
+	{% for hero in heroes %}
+		<p><a href="{% url 'hero' hero_id=hero.id %}">{{hero.name}}</a>has {{hero.power.name}} | Num of likes {{hero.like}} | 
+
+				{%if user in hero.liked_by.all%}
+					<a href="{% url 'unlikehero' hero_id=hero.id%}">Unlike</a>
+				{%else%}
+					<a href="{% url 'likehero' hero_id=hero.id%}">Like</a>
+					
+				{%endif%}
+
+		
+			
+		</p>
+		{%endfor%}
+		
+
+	</body>
+</div>
+
+
+</html>

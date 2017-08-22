@@ -31,11 +31,12 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'apps.hero_app',
     #'apps.courses_app',
     #'apps.loginreg_app',
     #'apps.user_dash_app',
     #'apps.belt_review_app',
-    'apps.test_belt_app',
+    #'apps.test_belt_app',
     #'apps.age_app',
     'django.contrib.admin',
     'django.contrib.auth',

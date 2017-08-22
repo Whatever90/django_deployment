@@ -1,0 +1,48 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			body{
+				margin: 10 10;
+				font-family: sans-serif;
+			}
+			#main{
+	    		width: 50%;
+	    		border: solid 1px;
+	    		padding: 10 10;
+			}
+			#log{
+				border: solid 1px;
+				display: grid;
+				width: 70%;
+    			padding: 10 10;
+    		}
+			
+		</style>
+		</head>
+	<body>
+	<div id="main">
+	<p><a href="{% url 'dashboard' %}">Back</a></p>
+	<form action="{% url 'createhero' %}" method="post">
+		{% csrf_token %}
+		<h3>Name your hero: <input class='inbox' type="text" name="heroname"></h3>
+		<h3>Choose you destiny: 
+		<select name="power">
+			{% for power in powers %}
+					<option value='{{power.id}}'>Power: {{power.name}} | Desc: {{power.desc}}</option>
+					
+					{%endfor%}
+				</select></h3>
+				
+		<input type="submit" value="Create">
+		</form>
+	</div>
+		
+	
+	
+	</body>
+
+
+
+</html>

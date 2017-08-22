@@ -1,0 +1,69 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			#main{
+				     margin: 10 10;
+	    		font-family: sans-serif;
+	    		display: flex;
+			}
+			.book{
+				border: solid 1px silver;
+				background-color: azure;
+			}
+			#last3{
+				border: solid 1px silver;
+				background-color: azure;
+				width: 300px;
+				
+			}
+			#last{
+				margin-right: 327px;
+			}
+			#book{
+				width: 300px;
+				float: right;
+
+			}
+
+		</style>
+		</head>
+	<body>
+	<div id="main">
+
+		<div id="last">
+			<div>
+			<h1>Hello {{request.session.user.alias}}</h1>
+			<p><a href="{% url 'logout' %}">Log out</a></p>
+			<p><a href="{% url 'addbook' %}">Add a book and review</a></p>
+			</div>
+	
+				<div id="last3">
+					<h3>Last reviewed</h3>
+						{% csrf_token %}
+						{%for rev in last%}
+						<div class="last">
+						<p><a href="{% url 'user' user_id=rev.reviwer.id%}">{{rev.reviwer.alias}}</a> <a href="{% url 'book' book_id=rev.reviewed.id%}">{{rev.reviewed.title}}</a> {{rev.content}}</p>
+						{%if rev.reviwer.id == session.request.user.id %}
+						<p>delete</p>
+						{%endif%}
+						</div>
+						{%endfor%}
+					
+				</div>
+		</div>
+		<div1 id="book">
+			{%for book in books%}
+				<div class="book">
+				<h4><a href="{% url 'book' book_id=book.id%}">"{{book.title}}"</a> by {{book.author}}</h4> 
+				
+				</div>
+				{%endfor%}
+		</div1>
+	</div>
+	</body>
+
+
+
+</html>

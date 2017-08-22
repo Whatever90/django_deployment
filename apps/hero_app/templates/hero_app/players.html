@@ -1,0 +1,43 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			body{
+				margin: 10 10;
+
+			}
+			#main{
+	    		width: 50%;
+	    		border: solid 1px;
+	    		padding: 10 10;
+	    		width: 300px;
+			}
+			#log{
+				border: solid 1px;
+				display: grid;
+				padding: 10 10;
+				width: 300px;
+    		}
+			
+		</style>
+		</head>
+	<body>
+	<div id="main">
+	<p><a href="{% url 'dashboard' %}">Back</a></p>
+	</div>
+	
+		<div id='log'>
+			<h1>All players</h1>
+			{% for player in players %}
+			<p><a href="{% url 'users' user_id=player.id%}">{{player.name}}</a> has {{player.gold}}</p>
+			{%endfor%}
+
+		</div>
+	
+	
+	</body>
+
+
+
+</html>
