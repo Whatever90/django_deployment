@@ -15,7 +15,7 @@ EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 def index(request):
 	print "we are in the main page"
-	return render(request, "poke_app/index.html")
+	return render(request, "shop_app/index.html")
 # Create your views here.
 def registration(request):
 	#errors = User.objects.basic_validator(request.POST)
@@ -33,7 +33,10 @@ def registration(request):
 		encpw = bcrypt.hashpw(request.POST.get('password').encode(), bcrypt.gensalt())
 		#a = request.POST['dob']
 ##########
-		a = parser.parse(request.POST['dob'])
+		try:
+			a = parser.parse(request.POST['dob'])
+		except:
+			return redirect('/')
 		print "+++++++++++++"
 		print a.month
 		#print relativedelta(datetime.now(), datetime.combine(a, datetime.min.time())).months 
@@ -42,9 +45,9 @@ def registration(request):
 #########
 		#print a.month
 		#return redirect('/')
-		create = Users.objects.create(name=request.POST['name'], alias=request.POST['alias'], email=request.POST['email'], password=encpw, dob=request.POST['dob'], pokesum=0)
+		create = Users.objects.create(name=request.POST['name'], alias=request.POST['alias'], email=request.POST['email'], password=encpw, dob=request.POST['dob'], totalsum=0, money=0)
 		create.save()
-		login(request, request.POST['email'])
+		#login(request, request.POST['email'])
 		request.session['user'] = {
 			'name': request.POST['name'],
 			'id': create.id,
@@ -92,39 +95,41 @@ def dashboard(request):
 	try: 
 		context = {
 			'you': Users.objects.get(id=request.session['user']['id']),
-			'users': Users.objects.all().exclude(id=request.session['user']['id']),
-			'beingpoked': Pokes.objects.all().filter(poked=Users.objects.get(id=request.session['user']['id'])).order_by('-pokesum'),
-			'len': len(Pokes.objects.all().filter(poked=Users.objects.get(id=request.session['user']['id'])))
+			'len': len(Links.objects.all().filter(booked_by=Users.objects.get(id=request.session['user']['id']))),
+			'items': Items.objects.all()
 			
 		}
-		return render(request, "poke_app/index2.html", context)
+		return render(request, "shop_app/index2.html", context)
 	except:
 		return redirect('/')
 	
-
-def poke(request, id):
-	print id
-	a = Users.objects.get(id=id)
-	print a.name
-	a.pokesum +=1
-	a.save()
-	if Pokes.objects.all().filter(poked=Users.objects.get(id=id),poked_by=Users.objects.get(id=request.session['user']['id'])):
-		print "Yep, he is here!"
-		g = Pokes.objects.get(poked=Users.objects.get(id=id), poked_by=Users.objects.get(id=request.session['user']['id']))
-		print g.id
-		g.pokesum+=1
-		g.save()
-	else:	
-		print "failed"
-		f = Pokes.objects.create(poked=Users.objects.get(id=id), poked_by=Users.objects.get(id=request.session['user']['id']), pokesum=1)
-	#print a.pokd.all().values()
-	print "+++++++++++++++"
-	#print len(Pokes.objects.all().filter(poked=Users.objects.get(id=id)))
-	print "+++++++++++++++"
-
-
+def addtocart(request, id):
+	a = Links.objects.create(booked_by=Users.objects.get(id=request.session['user']['id']), booked=Items.objects.get(id=id))
+	b = Users.objects.get(id=request.session['user']['id'])
+	c = Items.objects.get(id=id)
+	print c.price
+	print b.totalsum
+	b.totalsum += c.price
+	b.save()
 	return redirect('/dashboard')
 
+def checkcart(request):
+	context = {
+		'you': Users.objects.get(id=request.session['user']['id']),
+		'cartlen': len(Links.objects.all().filter(booked_by=Users.objects.get(id=request.session['user']['id']))),
+		'items': Links.objects.all().filter(booked_by=Users.objects.get(id=request.session['user']['id'])),
+
+	}
+	return render(request, "shop_app/index4.html", context)
+def remove(request, id):
+	a = Links.objects.get(id=id)
+	b = Users.objects.get(id=request.session['user']['id'])
+	
+	b.totalsum -= a.booked.price
+	b.save()
+	a.delete()
+	#a.save()
+	return redirect('/checkcart')
 
 def logout(request):
 	del request.session['user']

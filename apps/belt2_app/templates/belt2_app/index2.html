@@ -1,0 +1,77 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			#main{
+				;
+	    		
+			}
+			#mid{
+				border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+			}
+			.box{
+				display: inline-flex;
+			}
+			.one{
+				margin-left: 20%;
+			}
+			.two{
+			    margin-left: 50%;
+    			position: absolute;
+    		}
+    		body{
+    			font-family: sans-serif;
+    		}
+    		a{
+    			margin: 10 10;
+    			 background-color: azure;
+    			
+    		}
+    		.month{
+    			border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+    		}
+    		#check{
+    			margin: 10 10;
+	    		border: solid 1px silver;
+	    		background-color: azure;
+	    		width: 300px;
+    		}
+		</style>
+		</head>
+	<body>
+	<div id="main">
+	<p><a href="{% url 'logout' %}">Logout</a></p>
+	<h1>Success! Welcome, {{you.name}} aka {{you.alias}}</h1>
+
+	<h5>Here is the list of your friends: {%for person in friends.all%}
+	<p> {{person.added.name}} with id# {{person.added.id}} <a href="{% url 'user' id=person.added.id%}">View profile </a> <a href="{% url 'remove' id=person.added.id%}">Remove as friend</a></p>
+		
+		{%endfor%}
+	 </h5>
+	
+		
+	<h2>Other Users not in your friend's list:</h2>
+		{%for user in others%}
+		
+		
+		{%if user.id != you.id  %}
+
+		
+
+			<p><a href="{% url 'user' id=user.id%}">{{user.name}}</a> with id#{{user.id}} <a href="{% url 'addfriend' id=user.id%}">Add friend</a></p>
+		
+		{%endif%}
+		{%endfor%}
+</div>
+	</body>
+
+
+
+</html>

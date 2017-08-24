@@ -1,0 +1,64 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			#main{
+				;
+	    		
+			}
+			#mid{
+				border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+			}
+			.box{
+				display: inline-flex;
+			}
+			.one{
+				margin-left: 20%;
+			}
+			.two{
+			    margin-left: 50%;
+    			position: absolute;
+    		}
+    		body{
+    			font-family: sans-serif;
+    		}
+    		a{
+    			margin: 10 10;
+    			 background-color: azure;
+    			
+    		}
+    		.month{
+    			border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+    		}
+    		#check{
+    			margin: 10 10;
+	    		border: solid 1px silver;
+	    		background-color: azure;
+	    		width: 300px;
+    		}
+		</style>
+		</head>
+	<body>
+	<div id="main">
+	<p><a href="{% url 'logout' %}">Logout</a></p>
+	<h1>Success! Welcome, {{you.name}} aka {{you.alias}}</h1>
+	<h4>You have ${{you.money}}</h4>
+
+	<h5><a href="{% url 'checkcart' %}">Your cart</a>: {{cartlen}} </h5>
+	<h2>Items:</h2>
+	{%for item in items%}
+	<p><span style="color: green">{{item.name}}</span> costs {{item.price}} <a href="{% url 'addtocart' id=item.id %}">Add to cart</a></p>
+		{%endfor%}
+</div>
+	</body>
+
+
+
+</html>

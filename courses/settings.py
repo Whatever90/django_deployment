@@ -31,7 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'apps.poke_app',
+    'apps.belt2_app',
+    #'apps.shop_app',
+    #'apps.poke_app',
     #'apps.month_app',
     #'apps.hero_app',
     #'apps.courses_app',

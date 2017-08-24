@@ -1,0 +1,63 @@
+<html>
+	<head>
+		
+		<title>box</title>
+		<style type="text/css">
+			#main{
+				;
+	    		
+			}
+			#mid{
+				border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+			}
+			.box{
+				display: inline-flex;
+			}
+			.one{
+				margin-left: 20%;
+			}
+			.two{
+			    margin-left: 50%;
+    			position: absolute;
+    		}
+    		body{
+    			font-family: sans-serif;
+    		}
+    		a{
+    			margin: 10 10;
+    			 background-color: azure;
+    			
+    		}
+    		.month{
+    			border: solid 1px;
+				display: grid;
+				width: 70%;
+    			margin: 10 50;
+    		}
+    		#check{
+    			margin: 10 10;
+	    		border: solid 1px silver;
+	    		background-color: azure;
+	    		width: 300px;
+    		}
+		</style>
+		</head>
+	<body>
+	<div id="main">
+	<p><a href="{% url 'dashboard' %}">Back</a></p>
+	<h2>Your cart total: {{you.totalsum}}</h2>
+		{%for item in items.all %}
+		<p>{{item.booked.name}} {{item.booked.price}} <a href="{% url 'remove' id=item.id%}">Remove</a></p>
+		{%endfor%}
+	</div>
+	<p>
+		
+	</p>
+	</body>
+
+
+
+</html>

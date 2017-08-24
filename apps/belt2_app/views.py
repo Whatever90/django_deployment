@@ -15,7 +15,7 @@ EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 def index(request):
 	print "we are in the main page"
-	return render(request, "poke_app/index.html")
+	return render(request, "belt2_app/index.html")
 # Create your views here.
 def registration(request):
 	#errors = User.objects.basic_validator(request.POST)
@@ -33,7 +33,10 @@ def registration(request):
 		encpw = bcrypt.hashpw(request.POST.get('password').encode(), bcrypt.gensalt())
 		#a = request.POST['dob']
 ##########
-		a = parser.parse(request.POST['dob'])
+		try:
+			a = parser.parse(request.POST['dob'])
+		except:
+			return redirect('/')
 		print "+++++++++++++"
 		print a.month
 		#print relativedelta(datetime.now(), datetime.combine(a, datetime.min.time())).months 
@@ -42,12 +45,14 @@ def registration(request):
 #########
 		#print a.month
 		#return redirect('/')
-		create = Users.objects.create(name=request.POST['name'], alias=request.POST['alias'], email=request.POST['email'], password=encpw, dob=request.POST['dob'], pokesum=0)
+		create = Users.objects.create(name=request.POST['name'], alias=request.POST['alias'], email=request.POST['email'], password=encpw, dob=request.POST['dob'])
 		create.save()
-		login(request, request.POST['email'])
+		print 'shit'
+		#login(request, request.POST['email'])
 		request.session['user'] = {
 			'name': request.POST['name'],
 			'id': create.id,
+			#'a': Friends.objects.create(add_by=Users.objects.get(id=request.session['user']['id']))
 		}
 		#print request.session['user']
 		#print request.session['user']['gold']
@@ -75,6 +80,7 @@ def login(request):
 			request.session['user'] = {
 			'name': f.name,
 			'id': f.id,
+			#'a': Friends.objects.create(add_by=Users.objects.get(id=request.session['user']['id']))
 			}
 
 			return redirect('/dashboard')
@@ -88,43 +94,49 @@ def login(request):
 		return redirect('/')
 
 def dashboard(request):
-	#print 'we r in dashboard'
+	print 'we r in dashboard'
+
+	print request.session['user']['id']
 	try: 
+		print "trying"
 		context = {
 			'you': Users.objects.get(id=request.session['user']['id']),
-			'users': Users.objects.all().exclude(id=request.session['user']['id']),
-			'beingpoked': Pokes.objects.all().filter(poked=Users.objects.get(id=request.session['user']['id'])).order_by('-pokesum'),
-			'len': len(Pokes.objects.all().filter(poked=Users.objects.get(id=request.session['user']['id'])))
-			
+			'others': Users.objects.all(),#.exclude(addby=Users.objects.get(id=request.session['user']['id'])),
+			'friends': Friends.objects.all().filter(add_by=Users.objects.get(id=request.session['user']['id']))
 		}
-		return render(request, "poke_app/index2.html", context)
+		return render(request, "belt2_app/index2.html", context)
 	except:
+		print "failed"
 		return redirect('/')
 	
+def user(request, id):
+	context = {
+		'user': Users.objects.get(id=id)
+	}
+	return render(request, "belt2_app/index3.html", context)
 
-def poke(request, id):
-	print id
-	a = Users.objects.get(id=id)
-	print a.name
-	a.pokesum +=1
+def addfriend(request, id):
+
+	a = Friends.objects.create(add_by=Users.objects.get(id=request.session['user']['id']), added=Users.objects.get(id=id))
+	#a.save()
+	#print a.added.name
+	#a = Users.objects.get(id=request.session['user']['id'])
+	us = Users.objects.get(id=request.session['user']['id'])
+	print us.name
+	#a = Users.objects.get(id=id)
+	lok = Users.objects.get(id=id)
+	print lok.name
+	#a.added.add(Users.objects.get(id=id))
+	print a.added.id
 	a.save()
-	if Pokes.objects.all().filter(poked=Users.objects.get(id=id),poked_by=Users.objects.get(id=request.session['user']['id'])):
-		print "Yep, he is here!"
-		g = Pokes.objects.get(poked=Users.objects.get(id=id), poked_by=Users.objects.get(id=request.session['user']['id']))
-		print g.id
-		g.pokesum+=1
-		g.save()
-	else:	
-		print "failed"
-		f = Pokes.objects.create(poked=Users.objects.get(id=id), poked_by=Users.objects.get(id=request.session['user']['id']), pokesum=1)
-	#print a.pokd.all().values()
-	print "+++++++++++++++"
-	#print len(Pokes.objects.all().filter(poked=Users.objects.get(id=id)))
-	print "+++++++++++++++"
-
-
 	return redirect('/dashboard')
 
+
+def remove(request, id):
+	a = Friends.objects.get(add_by=Users.objects.get(id=request.session['user']['id']), added=Users.objects.get(id=id))
+	a.delete()
+
+	return redirect('/dashboard')
 
 def logout(request):
 	del request.session['user']
