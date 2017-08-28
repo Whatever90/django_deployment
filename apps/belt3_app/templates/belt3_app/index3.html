@@ -41,17 +41,32 @@
     			margin: 10 10;
 	    		border: solid 1px silver;
 	    		background-color: azure;
-	    		width: 300px;
+	    		width: 370px;
+	    		padding: 10 10;
     		}
 		</style>
 		</head>
 	<body>
-	<div id="main">
+	<div id="check">
 	<p><a href="{% url 'logout' %}">Logout</a></p>
-	<p><a href="{% url 'dashboard' %}">Home</a></p>
-	<h1>{{user.name}}'s Profile</h1>
-	<h4>Name: {{user.name}} aka '{{user.alias}}'</h4>
-	<h4>E-mail: {{user.email}}</h4>
+	<p><a href="{% url 'travels' %}">Home</a></p>
+	<div>
+		<form action="{% url 'addtrip' %}" method="post">
+		{% csrf_token %}
+		<h3>Destination: <input class='inbox' type="text" name="dest"></h3>
+		<h3>Description: <input class='inbox' type="text" name="desc"></h3>
+		<h3>Travel Date From: <input class='inbox' type="date" name="datefrom"></h3>
+		<h3>Travel Date To: <input class='inbox' type="date" name="dateto"></h3>
+		<input type="submit" value="Add">
+		</form>
+		{% if messages %}
+			{% for message in messages %}
+				{% if message.tags == 'error' %}
+					<p><span style="color: red">{{message}}</span></p>
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+	</div>
 </div>
 	</body>
 

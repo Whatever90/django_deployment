@@ -11,11 +11,18 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from dateutil import parser
 from django.contrib.auth import logout, login, authenticate
+from .forms import RegisterForm, LoginForm
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 def index(request):
 	print "we are in the main page"
-	return render(request, "belt2_app/index.html")
+	form = RegisterForm()
+	login = LoginForm()
+	context= {
+	 'regform': form,
+	 'login': login
+	}
+	return render(request, "belt2_app/index.html", context)
 # Create your views here.
 def registration(request):
 	#errors = User.objects.basic_validator(request.POST)
@@ -96,13 +103,16 @@ def login(request):
 def dashboard(request):
 	print 'we r in dashboard'
 
-	print request.session['user']['id']
+	
 	try: 
+		print request.session['user']['id']
 		print "trying"
+		
 		context = {
 			'you': Users.objects.get(id=request.session['user']['id']),
-			'others': Users.objects.all(),#.exclude(addby=Users.objects.get(id=request.session['user']['id'])),
-			'friends': Friends.objects.all().filter(add_by=Users.objects.get(id=request.session['user']['id']))
+			'others': Users.objects.all().exclude(friends=Users.objects.get(id=request.session['user']['id'])),
+			
+			#'friends': Friends.objects.all().filter(add_by=Users.objects.get(id=request.session['user']['id']))
 		}
 		return render(request, "belt2_app/index2.html", context)
 	except:
@@ -110,6 +120,10 @@ def dashboard(request):
 		return redirect('/')
 	
 def user(request, id):
+	try: 
+		print request.session['user']['id']
+	except:
+		return redirect('/')
 	context = {
 		'user': Users.objects.get(id=id)
 	}
@@ -117,24 +131,28 @@ def user(request, id):
 
 def addfriend(request, id):
 
-	a = Friends.objects.create(add_by=Users.objects.get(id=request.session['user']['id']), added=Users.objects.get(id=id))
+	#a = Friends.objects.create(add_by=Users.objects.get(id=request.session['user']['id']), added=Users.objects.get(id=id))
 	#a.save()
 	#print a.added.name
 	#a = Users.objects.get(id=request.session['user']['id'])
 	us = Users.objects.get(id=request.session['user']['id'])
 	print us.name
 	#a = Users.objects.get(id=id)
+	us.friends.add(Users.objects.get(id=id))
 	lok = Users.objects.get(id=id)
 	print lok.name
 	#a.added.add(Users.objects.get(id=id))
-	print a.added.id
-	a.save()
+	#print a.added.id
+	us.save()
 	return redirect('/dashboard')
 
 
 def remove(request, id):
-	a = Friends.objects.get(add_by=Users.objects.get(id=request.session['user']['id']), added=Users.objects.get(id=id))
-	a.delete()
+	us = Users.objects.get(id=request.session['user']['id'])
+	us.friends.remove(Users.objects.get(id=id))
+	us.save()
+	#a = User.objects.get(add_by=Users.objects.get(id=request.session['user']['id']), added=Users.objects.get(id=id))
+	#a.delete()
 
 	return redirect('/dashboard')
 

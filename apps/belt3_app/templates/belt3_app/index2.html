@@ -37,22 +37,33 @@
 				width: 70%;
     			margin: 10 50;
     		}
-    		#check{
+    		.check{
     			margin: 10 10;
 	    		border: solid 1px silver;
 	    		background-color: azure;
-	    		width: 300px;
+	    		width: 45%;
     		}
 		</style>
 		</head>
 	<body>
-	<div id="main">
 	<p><a href="{% url 'logout' %}">Logout</a></p>
-	<p><a href="{% url 'dashboard' %}">Home</a></p>
-	<h1>{{user.name}}'s Profile</h1>
-	<h4>Name: {{user.name}} aka '{{user.alias}}'</h4>
-	<h4>E-mail: {{user.email}}</h4>
+	
+	<h1>Welcome, {{you.name}}!</h1>
+	<div class='check'>
+	<h3>Your trip schedules:</h3>
+	{%for y in you.joiner.all%}
+	<p><a href="{% url 'destination' id=y.id %}">{{y.destination}}</a> {{y.datefrom}} {{y.dateto}} {{y.desc}}</p>
+	{%endfor%}
+	</div>
+	<div class='check'>
+	<h3>Other Trips:</h3>	
+	{%for x in trips%}
+	{%if x.id != you.id%}
+	<p>{{x.planned_by.name}} goes to <a href="{% url 'destination' id=x.id %}">{{x.destination}}</a> {{x.datefrom}} {{x.dateto}} <a href="{% url 'join' id=x.id%}">Join</a></p>
+	{%endif%}
+	{%endfor%}
 </div>
+<a href="{% url 'add' %}">Add Travel Plan</a>
 	</body>
 
 

@@ -29,15 +29,8 @@
     		a{
     			margin: 10 10;
     			 background-color: azure;
-    			
     		}
-    		.month{
-    			border: solid 1px;
-				display: grid;
-				width: 70%;
-    			margin: 10 50;
-    		}
-    		#check{
+    		.check{
     			margin: 10 10;
 	    		border: solid 1px silver;
 	    		background-color: azure;
@@ -46,13 +39,25 @@
 		</style>
 		</head>
 	<body>
-	<div id="main">
+	<p><a href="{% url 'travels' %}">Home</a></p>
 	<p><a href="{% url 'logout' %}">Logout</a></p>
-	<p><a href="{% url 'dashboard' %}">Home</a></p>
-	<h1>{{user.name}}'s Profile</h1>
-	<h4>Name: {{user.name}} aka '{{user.alias}}'</h4>
-	<h4>E-mail: {{user.email}}</h4>
-</div>
+	<div class='check'>
+	
+	<h2>{{trip.destination}}</h2>
+		<p>Planned by: {{trip.planned_by.name}} aka {{trip.planned_by.alias}}</p>
+		<p>Description: {{trip.desc}}</p>
+		<p>Travel Date From: {{trip.datefrom}}</p>
+		<p>Travel Date To: {{trip.dateto}}</p>
+	</div>
+	<div class='check'>
+		<h2>Other users' joining the trip:</h2>
+		{%for x in trip.user.all%}
+		{%if x.id != trip.planned_by.id%}
+		<p>{{x.name}} {{x.alias}}</p>
+		{%endif%}
+		{%endfor%}
+	</div>
+	
 	</body>
 
 

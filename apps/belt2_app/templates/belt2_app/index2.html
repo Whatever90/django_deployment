@@ -50,8 +50,8 @@
 	<p><a href="{% url 'logout' %}">Logout</a></p>
 	<h1>Success! Welcome, {{you.name}} aka {{you.alias}}</h1>
 
-	<h5>Here is the list of your friends: {%for person in friends.all%}
-	<p> {{person.added.name}} with id# {{person.added.id}} <a href="{% url 'user' id=person.added.id%}">View profile </a> <a href="{% url 'remove' id=person.added.id%}">Remove as friend</a></p>
+	<h5>Here is the list of your friends: {%for person in you.friends.all%}
+	<p> {{person.name}} with id# {{person.id}} <a href="{% url 'user' id=person.id%}">View profile </a> <a href="{% url 'remove' id=person.id%}">Remove as friend</a></p>
 		
 		{%endfor%}
 	 </h5>

@@ -15,6 +15,8 @@ class courseManager(models.Manager):
 		if len(postData['name'])<3:
 			#print "first_name failed"
 			result['errors'].append('Name should be not fewer than 3 characters')
+		if not postData['name'].isalpha():
+			result['errors'].append('Name should have letters, not numbers')
 		if len(postData['alias'])<1:
 			#print "first_name failed"
 			result['errors'].append('Alias should be not fewer than 1 characters')
@@ -54,16 +56,17 @@ class Users(models.Model):
 	dob = models.DateField(max_length=8)
 	password = models.CharField(max_length=255)
 	created_at = models.DateTimeField(auto_now_add=True)
-
+	friends = models.ManyToManyField('self')
 
 	
 
 	objects = courseManager()
 
 class Friends(models.Model):
-	#add_by = models.ManyToManyField(Users, related_name="add")
+	
+	add_by = models.ManyToManyField(Users, related_name="add")
 	add_by = models.ForeignKey(Users, related_name="addby")
-	added = models.ForeignKey(Users, related_name="add")
+	#added = models.ForeignKey(Users, related_name="add")
 	#models.ManyToManyField(Publication)
 	
 
