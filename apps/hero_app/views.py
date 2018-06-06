@@ -12,9 +12,9 @@ EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 def index(request):
 	print "we are in the main page"
 	return render(request, "hero_app/index.html")
-# Create your views here.
+
 def registration(request):
-	#errors = User.objects.basic_validator(request.POST)
+	errors = User.objects.basic_validator(request.POST)
 	request.session['err'] = ''
 	request.session['error'] = ""
 	print request.POST['name']
@@ -149,100 +149,4 @@ def hero(request, hero_id):
 #####################################################################################
 #####################################################################################
 #####################################################################################
-def game(request):
-	
-	context = {
-		'logs': Logs.objects.filter(us=Users.objects.get(id=request.session['user']['id'])).order_by('-created_at')[:8],
-		'user': Users.objects.get(id=request.session['user']['id'])
-	}
-	
-	return render(request,"test_belt_app/game.html", context)
 
-
-def process(request):
-	asd = Users.objects.get(id=request.session['user']['id'])
-	if request.POST['building'] == 'cave':
-		z = random.randrange(-50, 25)
-		if z>0:
-			print z
-			print "z greater than 0"
-			asd.gold += z
-			new = Logs.objects.create(content="You've got "+str(z)+" gold in a cave...what ", us=Users.objects.get(id=request.session['user']['id']))
-			new.save()
-			#request.session['log'].append("You've got "+str(z)+" gold in a cave...what ")
-		else:
-			z = z*(-1)
-			print z
-			print "z lower than 0"
-			asd.gold -=z
-			new = Logs.objects.create(content="Lol, Yeti sscrewed you up! You've lost "+str(z)+" gold ", us=Users.objects.get(id=request.session['user']['id']))
-			#request.session['log'].append("Lol, Yeti sscrewed you up! You've lost "+str(z)+" gold ")
-		print "cave"
-		print '2'	
-		
-
-	if request.POST['building'] == 'farm':
-		print "farm"
-		z = random.randrange(-100, 50)
-		print z
-		if z>0:
-			asd.gold += z
-			#request.session['log'].append("You've got "+str(z)+" gold in a farm...what a farmer!")
-			new = Logs.objects.create(content="You've got "+str(z)+" gold in a farm...what a farmer!", us=Users.objects.get(id=request.session['user']['id']))
-			new.save()
-		else:
-			z = z*(-1)
-			asd.gold -=z
-			new = Logs.objects.create(content="You've got unlucky! Pay for your stupid cows "+str(z)+" gold", us=Users.objects.get(id=request.session['user']['id']))
-			new.save()
-			#request.session['log'].append("You've got unlucky! Pay for your stupid cows "+str(z)+" gold")
-		print "farm"
-
-	if request.POST['building'] == 'casino':
-		z = random.randrange(-150, 75)
-		print z
-		if z>0:
-			asd.gold += z
-			new = Logs.objects.create(content="You've won "+str(z)+" gold in a casino, good job!", us=Users.objects.get(id=request.session['user']['id']))
-			new.save()
-			#request.session['log'].append("You've won "+str(z)+" gold in a casino, good job!")
-		else:
-			z = z*(-1)
-			asd.gold -=z
-			new = Logs.objects.create(content="Looser! Now give me your "+str(z)+" gold!", us=Users.objects.get(id=request.session['user']['id']))
-			new.save()
-			
-			#request.session['log'].append("Looser! Now give me your "+str(z)+" gold!")
-		print "casino"
-
-	if request.POST['building'] == 'forest':
-		asd.gold += 50
-		new = Logs.objects.create(content="You just have burried a dead body in a forrest. Well done. Here is your 50 gold. Come back if you need more money, we still have bunch of deads to get burried", us=Users.objects.get(id=request.session['user']['id']))
-		new.save()
-		#request.session['log'].append("You just have burried a dead body in a forrest. Well done. Here is your 50 gold. Come back if you need more money, we still have bunch of deads to get burried")
-		#request.session['num'] = "NUM!!!"
-		#for i in range(0, len(request.session['log']))
-	print "you have"
-	
-	# = request.session['user']['gold']
-	asd.save()
-	#print request.session['log']
-	return redirect('/game')
-	
-def endgame(request):
-	#request.session['user']['gold'] #= request.session['gold']
-	
-
-	return redirect('/dashboard')
-
-def users(request, user_id):
-	context = {
-		'user': Users.objects.get(id=user_id)
-	}
-	return render(request, "test_belt_app/user.html", context)
-
-def players(request):
-	context = {
-		'players': Users.objects.all().order_by("-gold")
-	}
-	return render(request, "test_belt_app/players.html", context)
