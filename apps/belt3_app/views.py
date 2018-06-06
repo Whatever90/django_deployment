@@ -11,16 +11,13 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from dateutil import parser
 from django.contrib.auth import logout, login, authenticate
-#from .forms import RegisterForm, LoginForm
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 def index(request):
 	print "we are in the main page"
-	
 	return render(request, "belt3_app/index.html")
-# Create your views here.
+
 def registration(request):
-	#errors = User.objects.basic_validator(request.POST)
 	request.session['err'] = ''
 	request.session['error'] = ""
 	print request.POST['name']
